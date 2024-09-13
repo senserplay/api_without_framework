@@ -28,6 +28,6 @@ def get_user(id: int) -> UserResponse:
 def create_user(request_body: str) -> UserResponse:
     data = json.loads(request_body)
     request = UserRequest.from_json(data)
-    user = User(name=request.name, email=request.email)
+    user = User(name=request.name, email=request.email, login=request.login, password=request.password)
     user.save()
     return UserResponse.from_orm(user)

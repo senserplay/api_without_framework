@@ -6,8 +6,10 @@ class User(Model):
     fields = {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'name': 'TEXT',
-        'email': 'TEXT'
+        'email': 'TEXT',
+        'login': 'TEXT',
+        'password': 'TEXT'
     }
 
-# Создание таблицы
+
 User.create_table()

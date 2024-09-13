@@ -4,6 +4,7 @@ import sqlite3
 class Database:
     def __init__(self, db_name):
         self.connection = sqlite3.connect(db_name)
+        self.connection.execute("PRAGMA foreign_keys = ON")  # Включаем поддержку внешних ключей
         self.cursor = self.connection.cursor()
 
     def execute(self, query, params=None):

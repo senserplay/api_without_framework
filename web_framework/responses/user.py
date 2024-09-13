@@ -7,13 +7,17 @@ class UserResponse(ApiBaseModel):
     id: int
     name: str
     email: str
+    login: str
+    password: str
 
     @classmethod
     def from_orm(cls, user: User):
         return cls(
             id=user.id,
             name=user.name,
-            email=user.email
+            email=user.email,
+            login=user.login,
+            password=user.password
         )
 
 

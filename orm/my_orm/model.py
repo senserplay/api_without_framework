@@ -31,9 +31,10 @@ class Model:
         return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
 
     @classmethod
-    def get_by_param(cls, param, record_id):
+    def get_by_param(cls, param, value):
         query = f"SELECT * FROM {cls.table_name} WHERE {param} = ?"
-        row = db.fetchall(query, [record_id])
-        if row:
-            return cls(**dict(zip(cls.fields.keys(), row[0])))
-        return None
+        rows = db.fetchall(query, [value])
+        if rows:
+            return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
+        return []
+

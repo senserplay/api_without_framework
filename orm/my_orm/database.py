@@ -3,8 +3,8 @@ import sqlite3
 
 class Database:
     def __init__(self, db_name):
-        self.connection = sqlite3.connect(db_name)
-        self.connection.execute("PRAGMA foreign_keys = ON")  # Включаем поддержку внешних ключей
+        # Добавьте check_same_thread=False
+        self.connection = sqlite3.connect(db_name, check_same_thread=False)
         self.cursor = self.connection.cursor()
 
     def execute(self, query, params=None):
@@ -18,6 +18,5 @@ class Database:
             params = []
         self.cursor.execute(query, params)
         return self.cursor.fetchall()
-
 
 db = Database('example.db')

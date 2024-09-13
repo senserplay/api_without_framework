@@ -10,6 +10,7 @@ class User(Model):
         'login': 'TEXT',
         'password': 'TEXT'
     }
+    foreign_keys = []
 
 
 User.create_table()

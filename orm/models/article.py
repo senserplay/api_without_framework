@@ -7,9 +7,11 @@ class Article(Model):
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'title': 'TEXT',
         'text': 'TEXT',
-        'user_id': 'INTEGER',
-        'FOREIGN KEY(user_id)': 'REFERENCES users(id)'
+        'user_id': 'INTEGER'
     }
+    foreign_keys = [
+        'FOREIGN KEY(user_id) REFERENCES users(id)'
+    ]
 
 
 Article.create_table()

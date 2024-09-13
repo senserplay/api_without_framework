@@ -12,7 +12,8 @@ class Model:
     @classmethod
     def create_table(cls):
         columns = ', '.join([f'{name} {col_type}' for name, col_type in cls.fields.items()])
-        query = f"CREATE TABLE IF NOT EXISTS {cls.table_name} ({columns})"
+        foreign_keys = ', '.join(cls.foreign_keys)
+        query = f"CREATE TABLE IF NOT EXISTS {cls.table_name} ({columns}{', ' + foreign_keys if foreign_keys else ''})"
         db.execute(query)
 
     def save(self):

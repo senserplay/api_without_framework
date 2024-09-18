@@ -24,6 +24,10 @@ class Model:
         db.execute(query, values)
         self.id = db.cursor.lastrowid
 
+    def delete(self):
+        query = f"DELETE FROM {self.table_name} WHERE id = ?"
+        db.execute(query, [self.id])
+
     @classmethod
     def all(cls):
         query = f"SELECT * FROM {cls.table_name}"
@@ -37,4 +41,3 @@ class Model:
         if rows:
             return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
         return []
-

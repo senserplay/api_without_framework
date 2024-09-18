@@ -6,6 +6,8 @@ class Database:
         # Добавьте check_same_thread=False
         self.connection = sqlite3.connect(db_name, check_same_thread=False)
         self.cursor = self.connection.cursor()
+        self.cursor.execute("PRAGMA foreign_keys = ON")
+        self.connection.commit()
 
     def execute(self, query, params=None):
         if params is None:

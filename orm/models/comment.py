@@ -10,8 +10,8 @@ class Comment(Model):
         'article_id': 'INTEGER'
     }
     foreign_keys = [
-        'FOREIGN KEY(user_id) REFERENCES users(id)',
-        'FOREIGN KEY(article_id) REFERENCES articles(id)'
+        'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE',
+        'FOREIGN KEY(article_id) REFERENCES articles(id) ON DELETE CASCADE'
     ]
 
 

@@ -1,6 +1,6 @@
 import json
 
-#from web_framework.my_router import Router
+# from web_framework.my_router import Router
 from fastapi import APIRouter
 from web_framework.requests.article import ArticleRequest
 from web_framework.responses.article import ArticleResponse, ArticlesResponse
@@ -16,12 +16,20 @@ def get_articles() -> ArticlesResponse:
 
 
 @router.get('/article/{id}')
-def get_article(id: int) -> ArticleResponse:
-    article = Article.get_by_param("id", id)
-
-    if article is None:
+def get_article(id: int):
+    articles = Article.get_by_param("id", id)
+    if not articles:
         return {"error": "Article not found"}, 404
-    return ArticleResponse.from_orm(article[0])
+    return ArticleResponse.from_orm(articles[0])
+
+
+@router.delete('/article/{id}')
+def delete_article(id: int):
+    articles = Article.get_by_param("id", id)
+    if not articles:
+        return {"error": "Article not found"}, 404
+    articles[0].delete()
+    return {"status": "ok"}
 
 
 @router.post('/article')

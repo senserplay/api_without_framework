@@ -21,7 +21,7 @@ def get_article(id: int) -> ArticleResponse:
 
     if article is None:
         return {"error": "Article not found"}, 404
-    return ArticleResponse.from_orm(article)
+    return ArticleResponse.from_orm(article[0])
 
 
 @router.post('/article')

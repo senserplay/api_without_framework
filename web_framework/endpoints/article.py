@@ -39,3 +39,9 @@ def create_article(request: ArticleRequest) -> ArticleResponse:
     article = Article(title=request.title, text=request.text, user_id=request.user_id)
     article.save()
     return ArticleResponse.from_orm(article)
+
+
+@router.get('/user/{user_id}/article')
+def get_user_articles(user_id: int):
+    articles = Article.get_by_param("user_id", user_id)
+    return ArticlesResponse.from_orm(articles)

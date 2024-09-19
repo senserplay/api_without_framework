@@ -15,3 +15,8 @@ class UserRequest(ApiBaseModel):
             login=str(data['login']),
             password=str(data['password'])
         )
+
+
+class LoginRequest(ApiBaseModel):
+    login: str
+    password: str

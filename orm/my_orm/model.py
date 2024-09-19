@@ -1,4 +1,6 @@
 import sqlite3
+from typing import List
+
 from orm.my_orm.database import db
 
 
@@ -35,9 +37,20 @@ class Model:
         return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
 
     @classmethod
-    def get_by_param(cls, param, value):
+    def get_by_param(cls, param, value) -> List:
         query = f"SELECT * FROM {cls.table_name} WHERE {param} = ?"
         rows = db.fetchall(query, [value])
+        if rows:
+            return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
+        return []
+
+    @classmethod
+    def get_by_params(cls, **kwargs):
+        # Генерируем SQL-запрос на основе переданных параметров
+        conditions = ' AND '.join([f"{key} = ?" for key in kwargs.keys()])
+        query = f"SELECT * FROM {cls.table_name} WHERE {conditions}"
+        values = list(kwargs.values())
+        rows = db.fetchall(query, values)
         if rows:
             return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
         return []

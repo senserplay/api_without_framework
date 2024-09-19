@@ -1,6 +1,5 @@
 import sqlite3
 from typing import List
-
 from orm.my_orm.database import db
 
 
@@ -23,15 +22,17 @@ class Model:
         placeholders = ', '.join(['?'] * len(self.fields))
         values = [getattr(self, field, None) for field in self.fields]
         query = f"INSERT INTO {self.table_name} ({fields}) VALUES ({placeholders})"
-        db.execute(query, values)
-        self.id = db.cursor.lastrowid
+
+        # Создаем новый курсор и выполняем запрос
+        cursor = db.execute(query, values)
+        self.id = cursor.lastrowid  # Получаем ID последней вставленной записи
 
     def delete(self):
         query = f"DELETE FROM {self.table_name} WHERE id = ?"
         db.execute(query, [self.id])
 
     @classmethod
-    def all(cls):
+    def all(cls) -> List:
         query = f"SELECT * FROM {cls.table_name}"
         rows = db.fetchall(query)
         return [cls(**dict(zip(cls.fields.keys(), row))) for row in rows]
@@ -45,7 +46,7 @@ class Model:
         return []
 
     @classmethod
-    def get_by_params(cls, **kwargs):
+    def get_by_params(cls, **kwargs) -> List:
         # Генерируем SQL-запрос на основе переданных параметров
         conditions = ' AND '.join([f"{key} = ?" for key in kwargs.keys()])
         query = f"SELECT * FROM {cls.table_name} WHERE {conditions}"
